@@ -74,8 +74,7 @@ class Polynomial:
             return Polynomial(coefs)
         
         elif isinstance(other, Polynomial):
-            length = self.degree() * other.degree() + 1
-            oldpoly = Polynomial((0,)*length)
+            oldpoly = Polynomial((0,))
             for count, a in enumerate(self.coefficients):
                 coefs = tuple(a*b for b in other.coefficients) 
                 newcoef = (0,)*count + coefs
@@ -92,9 +91,9 @@ class Polynomial:
     def __pow__(self, other):
 
         if isinstance(other, Integral):
-            poly = Polynomial(1,)
+            poly = Polynomial((1,))
             for i in range(other):
-                poly = poly * self
+                poly = self * poly
             return poly
         
         else:
@@ -105,7 +104,7 @@ class Polynomial:
         if isinstance(other, Number):
             value = 0
             for count, a in enumerate(self.coefficients):
-                value = value + a^count
+                value = value + a*(other ** count)
             return value
     
         else:
