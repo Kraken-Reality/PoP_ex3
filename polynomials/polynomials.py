@@ -65,8 +65,7 @@ class Polynomial:
             return NotImplemented
     
     def __rsub__(self, other):
-        coeffs = self - other
-        return Polynomial((-a for a in coeffs.coefficients))
+        return self - other
     
     def __mul__(self,other):
         if isinstance(other, Number):
@@ -109,3 +108,4 @@ class Polynomial:
     
         else:
             return NotImplemented
+        
