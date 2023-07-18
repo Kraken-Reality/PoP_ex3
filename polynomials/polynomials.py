@@ -116,3 +116,8 @@ class Polynomial:
             return Polynomial(poly)
         else:
             return NotImplemented
+        
+        #subtraction issue is persisting for some reason, 
+
+def derivative(f):
+    return Polynomial.dx(f)
