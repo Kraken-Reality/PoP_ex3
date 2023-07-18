@@ -1,4 +1,5 @@
 from numbers import Number
+from numbers import Integral
 
 
 class Polynomial:
@@ -50,3 +51,62 @@ class Polynomial:
 
     def __radd__(self, other):
         return self + other
+    def __sub__(self,other):
+        if isinstance(other, Polynomial):
+            common = min(self.degree(), other.degree()) + 1
+            coefs = tuple(a - b for a, b in zip(self.coefficients,
+                                                 other.coefficients))
+            coefs += self.coefficients[common:] + other.coefficients[common:]
+
+            return Polynomial(coefs)
+        elif isinstance(other, Number):
+            return Polynomial((self.coefficients[0] - other,) + self.coefficients[1:]) #do I need comma after other? YES OTHERWISE FIRST TERM IS NOT A TUPLE
+        else:
+            return NotImplemented
+    
+    def __rsub__(self, other):
+        coeffs = self - other
+        return Polynomial((-a for a in coeffs.coefficients))
+    
+    def __mul__(self,other):
+        if isinstance(other, Number):
+            coefs = tuple(a * other for a in self.coefficients)
+            return Polynomial(coefs)
+        
+        elif isinstance(other, Polynomial):
+            length = self.degree() * other.degree() + 1
+            oldpoly = Polynomial((0,)*length)
+            for count, a in enumerate(self.coefficients):
+                coefs = tuple(a*b for b in other.coefficients) 
+                newcoef = (0,)*count + coefs
+                poly = Polynomial(newcoef) + oldpoly
+                oldpoly = poly
+            return poly
+        
+        else:
+            return NotImplemented
+    
+    def __rmul__(self, other):
+        return self * other
+    
+    def __pow__(self, other):
+
+        if isinstance(other, Integral):
+            poly = Polynomial(1,)
+            for i in range(other):
+                poly = poly * self
+            return poly
+        
+        else:
+            return NotImplemented
+        
+    def __call__(self, other):
+
+        if isinstance(other, Number):
+            value = 0
+            for count, a in enumerate(self.coefficients):
+                value = value + a^count
+            return value
+    
+        else:
+            return NotImplemented
