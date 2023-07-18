@@ -108,4 +108,11 @@ class Polynomial:
     
         else:
             return NotImplemented
-        
+    
+    def dx(self):
+        if isinstance(self, Polynomial):
+            coefs = tuple(a*b for a,b in enumerate(self.coefficients))
+            poly = coefs[1:]
+            return Polynomial(poly)
+        else:
+            return NotImplemented
