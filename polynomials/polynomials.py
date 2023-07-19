@@ -56,7 +56,8 @@ class Polynomial:
             common = min(self.degree(), other.degree()) + 1
             coefs = tuple(a - b for a, b in zip(self.coefficients,
                                                  other.coefficients))
-            coefs += self.coefficients[common:] + other.coefficients[common:]
+            excoefs = tuple(-a for a in other.coefficients[common:])
+            coefs += self.coefficients[common:] + excoefs
 
             return Polynomial(coefs)
         elif isinstance(other, Number):
@@ -65,7 +66,7 @@ class Polynomial:
             return NotImplemented
     
     def __rsub__(self, other):
-        return self - other
+        return (-1)*(self - other)
     
     def __mul__(self,other):
         if isinstance(other, Number):
@@ -117,7 +118,8 @@ class Polynomial:
         else:
             return NotImplemented
         
-        #subtraction issue is persisting for some reason, 
 
 def derivative(f):
     return Polynomial.dx(f)
+
+#Have put derivative function in initpy, think this fixes issues
