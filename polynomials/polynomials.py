@@ -112,9 +112,13 @@ class Polynomial:
     
     def dx(self):
         if isinstance(self, Polynomial):
-            coefs = tuple(a*b for a,b in enumerate(self.coefficients))
-            poly = coefs[1:]
-            return Polynomial(poly)
+            if self.degree() == 0:
+                return Polynomial((0,))
+            else:
+                coefs = tuple(a*b for a,b in enumerate(self.coefficients))
+                poly = coefs[1:]
+                return Polynomial(poly)
+        
         else:
             return NotImplemented
         
@@ -122,4 +126,4 @@ class Polynomial:
 def derivative(f):
     return Polynomial.dx(f)
 
-#Have put derivative function in initpy, think this fixes issues
+#Have put derivative function in initpy file, think this fixes issues
